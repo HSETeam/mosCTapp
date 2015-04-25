@@ -8,14 +8,16 @@ import com.loopj.android.http.*;
 
 import org.apache.http.Header;
 
+import java.util.ArrayList;
+
 public class GoogleAPIRequest {
 
     receiveDistance listener;
 
-    void getRouteDistance (float lon1, float lat1, float lon2, float lat2){
+    void getRouteDistance (final Exit exit, float lon2, float lat2){
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("origin", lon1+","+lat1);
+        params.put("origin", exit.lon+","+exit.lat);
         params.put("destination", lon2+","+lat2);
         params.put("sensor", "true");
         params.put("mode","walking");
@@ -26,8 +28,7 @@ public class GoogleAPIRequest {
                 //TODO parse answer
                 System.out.println("answer received");
                 Log.d("pizda", "answer received\n" + (new String(responseBody)));
-                String twmp = new String(responseBody);
-                listener.distanceReceived(0);
+                listener.distanceReceived(responseBody, exit);
             }
 
             @Override
@@ -35,5 +36,6 @@ public class GoogleAPIRequest {
                 Log.d("pizda","answer did not received\n"+(new String(responseBody)));
             }
         });
+
     }
 }

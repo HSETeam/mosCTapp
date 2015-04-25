@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
         exArray[0] = new Exit(10, 3, new Route(true, new ArrayList<Step>()));
         exArray[1] = new Exit(2, 6, new Route(true, new ArrayList<Step>()));
         Station station = new Station(exArray, "asfas", new Line("ad"));
-        station.getNearestExit(0, 0);
+        station.getNearestExit(0, 0, getApplicationContext());
 
         //**Testing Card Adapter (by Tema)
         List<Step> listOfSteps = new ArrayList<Step>();
@@ -85,5 +85,9 @@ public class MainActivity extends ActionBarActivity {
         ListView lv = (ListView)findViewById(R.id.card_listview);
         ListAdapter adapter = new cardAdapter(this, steps);
         lv.setAdapter(adapter);
+    }
+
+    public void receivedNearestExit(Exit exit) {
+
     }
 }
