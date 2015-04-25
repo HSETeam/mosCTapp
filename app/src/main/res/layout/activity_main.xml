@@ -11,7 +11,37 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="#F44336"
-        theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+        theme="@style/ThemeOverlay.AppCompat.ActionBar" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText1"
+                android:hint="from..."
+                android:drawableLeft="@drawable/abc_ic_search_api_mtrl_alpha"/>
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText2"
+                android:hint="too..."
+                android:drawableLeft="@drawable/abc_ic_search_api_mtrl_alpha"/>
+
+
+        </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView" />
+
 
 </LinearLayout>
 
