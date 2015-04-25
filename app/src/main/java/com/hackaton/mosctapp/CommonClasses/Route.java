@@ -8,18 +8,13 @@ import java.util.Collections;
 /**
  * Created by diesersamat on 25/04/15.
  */
-enum Steps {
-    Straight,
-    Right,
-    Left
-}
 
 public class Route {
     boolean direct;
-    ArrayList<Steps> route;
+    ArrayList<Step> route;
     String name;
 
-    public Route(boolean direct, ArrayList<Steps> route) {
+    public Route(boolean direct, ArrayList<Step> route) {
         this.route = route;
         this.direct = direct;
     }
@@ -28,13 +23,13 @@ public class Route {
         return dir ^ this.direct;
     }
 
-    public ArrayList<Steps> getWay(boolean dir) {
+    public ArrayList<Step> getWay(boolean dir) {
         boolean currentDir = getDirection(dir);
-        Steps way;
+        Step way;
         if(currentDir) {
-            way = Steps.Left;
+            way = new Step(Steps.Left, "lalal");
         } else {
-            way = Steps.Right;
+            way = new Step(Steps.Right, ";a;a");
         }
         route.add(0, way);
 
