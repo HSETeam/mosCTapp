@@ -20,12 +20,14 @@ public class GoogleAPIRequest {
         params.put("sensor", "true");
         params.put("mode","walking");
 
-        client.get("http://maps.googleapis.com/maps/api/directions/output?parameters",params,new AsyncHttpResponseHandler() {
+        client.get("http://maps.googleapis.com/maps/api/directions/json?origin="+lon1+","+lat1+
+                "&destination=" +  lon2+","+lat2 + "&sensor=true&mode=walking" ,new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 //TODO parse answer
                 System.out.println("answer received");
-                Log.d("pizda", "answer received\n"+(new String(responseBody)));
+                Log.d("pizda", "answer received\n" + (new String(responseBody)));
+                String twmp = new String(responseBody);
                 listener.distanceReceived(0);
             }
 
