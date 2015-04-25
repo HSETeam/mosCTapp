@@ -40,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
         listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
         listOfSteps.add(new Step("Right", "Поверните направо после входа" ));
         listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
+        listOfSteps.add(new Step("Left", "Выход на улицу Кропоткинская" ));
         setCardsAdapter(listOfSteps);
     }
 
