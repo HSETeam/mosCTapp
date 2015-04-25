@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.hackaton.mosctapp.CommonClasses.Exit;
+import com.hackaton.mosctapp.CommonClasses.Line;
+import com.hackaton.mosctapp.CommonClasses.Station;
+import com.hackaton.mosctapp.CommonClasses.Step;
 import com.parse.*;
 import com.parse.Parse;
 
@@ -24,6 +29,9 @@ public class MainActivity extends ActionBarActivity {
 
         hernya();
 
+        Exit[] exArray = new Exit[5];
+        Station station = new Station(exArray, "asfas", new Line("ad"));
+        station.getNearestExit(0, 0);
     }
 
     void hernya() {

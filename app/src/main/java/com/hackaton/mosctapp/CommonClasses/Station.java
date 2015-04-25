@@ -11,7 +11,7 @@ public class Station implements receiveDistance {
     String name;
     Line line;
 
-    Station(Exit[] es, String n, Line l) {
+    public Station(Exit[] es, String n, Line l) {
         exits = es;
         name  = n;
         line = l;
@@ -22,9 +22,10 @@ public class Station implements receiveDistance {
         return name;
     }
 
-    Exit getNearestExit(float lon, float lat){
+    public Exit getNearestExit(float lon, float lat){
         GoogleAPIRequest request = new GoogleAPIRequest();
         request.delegate = this;
+        request.getRouteDistance(12,6,9,0);
        //TODO google api request
         return null;
 

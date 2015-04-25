@@ -9,13 +9,13 @@ public class Exit {
     public Route way;
 
 
-    Exit(float lon, float lat, Route way) {
+    public Exit(float lon, float lat, Route way) {
         this.lat = lat;
         this.lon = lon;
         this.way = way;
     }
 
-    Exit() {
+    public Exit() {
 
     }
 

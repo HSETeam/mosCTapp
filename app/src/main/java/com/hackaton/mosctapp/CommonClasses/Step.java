@@ -4,7 +4,7 @@ package com.hackaton.mosctapp.CommonClasses;
  * Created by tema on 26.04.15.
  */
 
-enum Steps {
+ enum Steps {
     Straight,
     Right,
     Left

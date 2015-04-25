@@ -6,7 +6,7 @@ package com.hackaton.mosctapp.CommonClasses;
 public class Line {
     String Name;
 
-    Line(String n) {
+    public Line(String n) {
         Name = n;
     }
 }
