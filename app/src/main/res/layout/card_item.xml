@@ -32,20 +32,22 @@
                     android:layout_height="fill_parent"
                     android:id="@+id/list_item">
 
-                    <ImageView
-                        android:layout_width="80px"
-                        android:layout_height="80px"
-                        android:id="@+id/ownerImage"
-                        android:focusableInTouchMode="false"
-                        android:layout_marginTop="10px"
-                        android:layout_marginLeft="10px" />
 
                     <LinearLayout
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10px"
                         android:layout_marginTop="10px">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:id="@+id/imageView"
+                            android:background="@mipmap/iconleft"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginTop="8dp" />
+
                         <TextView
                             android:id="@+id/instruction"
                             android:layout_width="wrap_content"
@@ -53,7 +55,9 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:text="Поверните налево"
-                            android:textColor="#ff000000" />
+                            android:textColor="#ff000000"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="8dp" />
 
                     </LinearLayout>
                 </LinearLayout>
