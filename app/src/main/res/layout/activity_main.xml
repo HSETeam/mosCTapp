@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <EditText
+            <AutoCompleteTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/inputFrom"
@@ -29,7 +29,7 @@
 
                 android:layout_marginTop="8dp" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/inputTo"
@@ -50,6 +50,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/card_listview"
         android:layout_marginTop="8dp" />
+
 
 
 </LinearLayout>
