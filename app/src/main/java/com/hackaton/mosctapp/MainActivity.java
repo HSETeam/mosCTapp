@@ -8,10 +8,7 @@ import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.hackaton.mosctapp.CommonClasses.Exit;
-import com.hackaton.mosctapp.CommonClasses.Line;
-import com.hackaton.mosctapp.CommonClasses.Station;
-import com.hackaton.mosctapp.CommonClasses.Step;
+import com.hackaton.mosctapp.CommonClasses.*;
 import com.parse.*;
 import com.parse.Parse;
 
@@ -32,7 +29,9 @@ public class MainActivity extends ActionBarActivity {
 
         hernya();
 
-        Exit[] exArray = new Exit[5];
+        Exit[] exArray = new Exit[2];
+        exArray[0] = new Exit(10, 3, new Route(true, new ArrayList<Step>()));
+        exArray[1] = new Exit(2, 6, new Route(true, new ArrayList<Step>()));
         Station station = new Station(exArray, "asfas", new Line("ad"));
         station.getNearestExit(0, 0);
 

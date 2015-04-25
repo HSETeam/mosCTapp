@@ -20,7 +20,7 @@ public class GoogleAPIRequest {
         params.put("sensor", "true");
         params.put("mode","walking");
 
-        client.get("http://maps.googleapis.com/maps/api/directions/output?parameters\n",params,new AsyncHttpResponseHandler() {
+        client.get("http://maps.googleapis.com/maps/api/directions/output?parameters",params,new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 //TODO parse answer

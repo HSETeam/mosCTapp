@@ -24,9 +24,9 @@ public class Station implements receiveDistance {
 
     public Exit getNearestExit(float lon, float lat){
         GoogleAPIRequest request = new GoogleAPIRequest();
-        request.delegate = this;
+        request.listener = this;
         for (Exit exit : exits) {
-            request.getRouteDistance(exit.lon,exit.lat, lon, lat);
+            request.getRouteDistance(exit.lon, exit.lat, lon, lat);
             //TODO google api request
         }
         return null;
