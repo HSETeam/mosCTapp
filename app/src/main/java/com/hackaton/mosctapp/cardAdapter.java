@@ -29,10 +29,15 @@ public class cardAdapter extends ArrayAdapter<Step> {
     public View getView(int position, View convertView, ViewGroup parent) {
         final Step step = (Step)getItem(position);
 
-        ((TextView) convertView.findViewById(R.id.instruction))
-                .setText(step.description);
+        convertView = null;
 
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.card_item, null);
+        }
 
+        TextView instruction = ((TextView) convertView.findViewById(R.id.instruction));
+        instruction.setText(step.description);
 
         return convertView;
     }
