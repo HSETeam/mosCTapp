@@ -27,9 +27,9 @@ public class Route {
         boolean currentDir = getDirection(dir);
         Step way;
         if(currentDir) {
-            way = new Step(Steps.Left, "lalal");
+            way = new Step("Left", "lalal");
         } else {
-            way = new Step(Steps.Right, ";a;a");
+            way = new Step("Right", ";a;a");
         }
         route.add(0, way);
 

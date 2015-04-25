@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.hackaton.mosctapp.CommonClasses.Exit;
 import com.hackaton.mosctapp.CommonClasses.Line;
@@ -13,6 +15,7 @@ import com.hackaton.mosctapp.CommonClasses.Step;
 import com.parse.*;
 import com.parse.Parse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,6 +35,13 @@ public class MainActivity extends ActionBarActivity {
         Exit[] exArray = new Exit[5];
         Station station = new Station(exArray, "asfas", new Line("ad"));
         station.getNearestExit(0, 0);
+
+        //**Testing Card Adapter (by Tema)
+        List<Step> listOfSteps = new ArrayList<Step>();
+        listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
+        listOfSteps.add(new Step("Right", "Поверните направо после входа" ));
+        listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
+        setCardsAdapter(listOfSteps);
     }
 
     void hernya() {
@@ -69,5 +79,12 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setCardsAdapter(List<Step> steps)
+    {
+        ListView lv = (ListView)findViewById(R.id.card_listview);
+        ListAdapter adapter = new cardAdapter(this, steps);
+        lv.setAdapter(adapter);
     }
 }
