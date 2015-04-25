@@ -23,8 +23,11 @@ public class Station implements receiveDistance {
     }
 
     Exit getNearestExit(float lon, float lat){
-        return null;
+        GoogleAPIRequest request = new GoogleAPIRequest();
+        request.delegate = this;
        //TODO google api request
+        return null;
+
     }
 
     public void distanceReceived(float distance) {
