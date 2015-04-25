@@ -27,7 +27,7 @@
                 android:textColorHint="#ffd8d8d8"
                 android:textColor="#ffffffff"
 
-                />
+                android:layout_marginTop="8dp" />
 
             <EditText
                 android:layout_width="fill_parent"
@@ -36,7 +36,9 @@
                 android:hint="too..."
                 android:drawableLeft="@drawable/abc_ic_search_api_mtrl_alpha"
                 android:textColorHint="#ffd8d8d8"
-                android:textColor="#ffffffff" />
+                android:textColor="#ffffffff"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
 
 
         </LinearLayout>
@@ -46,7 +48,8 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/card_listview" />
+        android:id="@+id/card_listview"
+        android:layout_marginTop="8dp" />
 
 
 </LinearLayout>
