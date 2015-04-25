@@ -31,7 +31,7 @@ public class cardAdapter extends ArrayAdapter<Step> {
 
         ((TextView) convertView.findViewById(R.id.instruction))
                 .setText(step.description);
-        
+
 
 
         return convertView;
