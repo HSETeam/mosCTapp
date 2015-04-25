@@ -23,7 +23,6 @@ public class MainActivity extends ActionBarActivity {
         Parse.initialize(this, "25hdoejCjH0imQAFBGav3Wr4nMgBWYexr44RTCg7", "flhxfIbJBONuJRmcC77ZrWAEXqmpnb6Cf0lmCgAt");
 
         hernya();
-         gug
 
     }
 

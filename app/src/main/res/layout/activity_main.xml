@@ -21,14 +21,14 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText1"
+                android:id="@+id/inputFrom"
                 android:hint="from..."
                 android:drawableLeft="@drawable/abc_ic_search_api_mtrl_alpha"/>
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText2"
+                android:id="@+id/inputTo"
                 android:hint="too..."
                 android:drawableLeft="@drawable/abc_ic_search_api_mtrl_alpha"/>
 
