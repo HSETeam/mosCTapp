@@ -18,29 +18,72 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <AutoCompleteTextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/inputFrom"
-                android:hint="from..."
-                android:drawableLeft="@drawable/abc_ic_search_api_mtrl_alpha"
-                android:textColorHint="#ffd8d8d8"
-                android:textColor="#ffffffff"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                android:layout_marginTop="8dp" />
+                <com.hackaton.mosctapp.DelayAutoCompleteTextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/inputFrom"
+                    android:hint="from..."
+                    android:drawableLeft="@drawable/abc_ic_search_api_mtrl_alpha"
+                    android:textColorHint="#ffd8d8d8"
+                    android:textColor="#ffffffff"
+                    android:layout_marginTop="8dp"
+                    android:selectAllOnFocus="true"/>
 
-            <AutoCompleteTextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/inputTo"
-                android:hint="too..."
-                android:drawableLeft="@drawable/abc_ic_search_api_mtrl_alpha"
-                android:textColorHint="#ffd8d8d8"
-                android:textColor="#ffffffff"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
+                <ProgressBar
+                    style="?android:attr/progressBarStyleSmall"
+                    android:id="@+id/progress_bar1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="16dp"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.hackaton.mosctapp.DelayAutoCompleteTextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/inputTo"
+                    android:hint="too..."
+                    android:drawableLeft="@drawable/abc_ic_search_api_mtrl_alpha"
+                    android:textColorHint="#ffd8d8d8"
+                    android:textColor="#ffffffff"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:selectAllOnFocus="true">
+
+                    </com.hackaton.mosctapp.DelayAutoCompleteTextView>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar2"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="16dp"
+                    android:visibility="gone"
+                    />
+            </FrameLayout><![CDATA[
 
 
+
+
+
+            >
+
+
+
+
+
+
+        ]]>
         </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
