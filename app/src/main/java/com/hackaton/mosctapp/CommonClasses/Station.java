@@ -4,6 +4,10 @@ import android.content.Context;
 
 import com.hackaton.mosctapp.MainActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +18,7 @@ import java.util.Comparator;
  */
 
 interface  receiveDistance {
-    void distanceReceived(byte[] responseBody, Exit exit);
+    void distanceReceived(byte[] responseBody, Exit exit) throws JSONException;
 }
 
 /**
@@ -50,7 +54,7 @@ public class Station implements receiveDistance {
         return name;
     }
 
-    public void getNearestExit(float lon, float lat, Context applicationContext){
+    public void getNearestExit(float lon, float lat, MainActivity applicationContext){
         GoogleAPIRequest request = new GoogleAPIRequest();
         request.listener = this;
         context = ((MainActivity)applicationContext);
@@ -61,10 +65,18 @@ public class Station implements receiveDistance {
 
     }
 
-    public void distanceReceived(byte[] responseBody, Exit exit) {
+    public void distanceReceived(byte[] responseBody, Exit exit) throws JSONException {
         String answer = new String(responseBody);
-        if (answer != "NO ROUTES") {
-            distances.add(new Pair(exit,Float.parseFloat(answer)));
+        JSONObject root = new JSONObject(answer);
+        JSONArray array = root.getJSONArray("routes");
+
+
+        if (array.length() != 0) {
+            root = array.getJSONObject(0);
+            array = root.getJSONArray("legs");
+            root = array.getJSONObject(0);
+            root = root.getJSONObject("value");
+            distances.add(new Pair(exit,Float.parseFloat(String.valueOf(Float.parseFloat(root.toString())))));
         }
         distancesCount++;
         if (distancesCount == exits.length) {
@@ -81,6 +93,11 @@ public class Station implements receiveDistance {
         }
 
         Collections.sort(distances,new CustomComparator());
-        context.receivedNearestExit(distances.get(0).exit);
+        if (distances.size() !=0 ) {
+            context.receivedNearestExit(distances.get(0).exit);
+        }
+        else {
+
+        }
     }
 }

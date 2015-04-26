@@ -7,6 +7,7 @@ import android.util.Log;
 import com.loopj.android.http.*;
 
 import org.apache.http.Header;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,11 @@ public class GoogleAPIRequest {
                 //TODO parse answer
                 System.out.println("answer received");
                 Log.d("pizda", "answer received\n" + (new String(responseBody)));
-                listener.distanceReceived(responseBody, exit);
+                try {
+                    listener.distanceReceived(responseBody, exit);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

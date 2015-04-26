@@ -5,16 +5,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.hackaton.mosctapp.CommonClasses.*;
 import com.parse.*;
 import com.parse.Parse;
-import com.parse.entity.mime.content.StringBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
         exArray[0] = new Exit(10, 3, new Route(true, new ArrayList<Step>()));
         exArray[1] = new Exit(2, 6, new Route(true, new ArrayList<Step>()));
         Station station = new Station(exArray, "asfas", new Line("ad"));
-        //station.getNearestExit(0, 0, this);
+        station.getNearestExit(0, 0, this);
 
         //**Testing Card Adapter (by Tema)
         List<Step> listOfSteps = new ArrayList<Step>();
@@ -46,7 +42,6 @@ public class MainActivity extends ActionBarActivity {
         listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
         listOfSteps.add(new Step("Left", "Выход на улицу Кропоткинская" ));
         setCardsAdapter(listOfSteps);
-        initializeAutoHint();
     }
 
     void hernya() {
@@ -95,34 +90,5 @@ public class MainActivity extends ActionBarActivity {
 
     public void receivedNearestExit(Exit exit) {
 
-    }
-
-    /**
-     * Инициализация подсказок выбора позиции
-     */
-    public void initializeAutoHint() {
-        final DelayAutoCompleteTextView toTitle = (DelayAutoCompleteTextView) findViewById(R.id.inputTo);
-        toTitle.setThreshold(4);
-        toTitle.setAdapter(new autoCompleteAdapter(this));
-        toTitle.setLoadingIndicator((ProgressBar) findViewById(R.id.progress_bar2));
-        toTitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String str = (String) adapterView.getItemAtPosition(position);
-                toTitle.setText(str);
-            }
-        });
-
-        final DelayAutoCompleteTextView fromTitle = (DelayAutoCompleteTextView) findViewById(R.id.inputFrom);
-        fromTitle.setThreshold(4);
-        fromTitle.setAdapter(new autoCompleteAdapter(this));
-        fromTitle.setLoadingIndicator((ProgressBar) findViewById(R.id.progress_bar1));
-        fromTitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String str = (String) adapterView.getItemAtPosition(position);
-                fromTitle.setText(str);
-            }
-        });
     }
 }
