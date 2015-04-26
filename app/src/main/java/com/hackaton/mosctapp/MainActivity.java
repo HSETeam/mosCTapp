@@ -141,6 +141,7 @@ public class MainActivity extends ActionBarActivity {
             ((EditText)findViewById(R.id.inputTo)).setText("");
             ((EditText)findViewById(R.id.inputFrom)).setText("");
             setCardsAdapter(new ArrayList<Step>());
+
         }
 
         return super.onOptionsItemSelected(item);
