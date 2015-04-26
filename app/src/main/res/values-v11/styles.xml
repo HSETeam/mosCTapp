@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#F44336</item>
         <item name="colorControlNormal">#ffffffff</item>
-
+        <!--<item name="android:windowContentOverlay">@null</item>-->
     </style>
 
 </resources>
