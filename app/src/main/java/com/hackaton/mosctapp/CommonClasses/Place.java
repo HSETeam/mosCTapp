@@ -20,6 +20,10 @@ public class Place {
     public Place(String name, String id) {
         this.name = name;
         this.id= id;
+
+    }
+
+    public void loadData() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8");

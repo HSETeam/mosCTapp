@@ -1,6 +1,7 @@
 package com.hackaton.mosctapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,10 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.hackaton.mosctapp.CommonClasses.GoogleAPIRequest;
+import com.hackaton.mosctapp.CommonClasses.Place;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,13 +23,12 @@ import java.util.List;
 public class autoCompleteAdapter extends BaseAdapter implements Filterable {
     private static final int MAX_RESULTS = 10;
     GoogleAPIRequest request = new GoogleAPIRequest();
-
     private final Context mContext;
-    private List<String> mResults;
+    private List<Place> mResults;
 
     public autoCompleteAdapter(Context context) {
         mContext = context;
-        mResults = new ArrayList<String>();
+        mResults = new ArrayList<Place>();
     }
 
     @Override
@@ -35,9 +37,10 @@ public class autoCompleteAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public String getItem(int index) {
+    public Place getItem(int index) {
         return mResults.get(index);
     }
+
 
     @Override
     public long getItemId(int position) {
@@ -45,12 +48,12 @@ public class autoCompleteAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(R.layout.auto_hint, parent, false);
         }
-        String text = getItem(position);
+        String text = getItem(position).name;
         ((TextView) convertView.findViewById(R.id.hintAutoText)).setText(text);
 
         return convertView;
@@ -63,7 +66,7 @@ public class autoCompleteAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
-                    List<String> books = findLocations(mContext, constraint.toString());
+                    List<Place> books = findLocations(mContext, constraint.toString());
                     // Assign the data to the FilterResults
                     filterResults.values = books;
                     filterResults.count = books.size();
@@ -74,7 +77,7 @@ public class autoCompleteAdapter extends BaseAdapter implements Filterable {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 if (results != null && results.count > 0) {
-                    mResults = (List<String>) results.values;
+                    mResults = (List<Place>) results.values;
                     notifyDataSetChanged();
                 } else {
                     notifyDataSetInvalidated();
@@ -87,8 +90,8 @@ public class autoCompleteAdapter extends BaseAdapter implements Filterable {
     /**
      * Returns a search result for the given book title.
      */
-    private List<String> findLocations(Context context, String bookTitle) {
-        List<String> arrayList = new ArrayList<String>();
+    private List<Place> findLocations(Context context, String bookTitle) {
+        List<Place> arrayList = new ArrayList<Place>();
         arrayList = request.getAutoComplete(bookTitle);
 
         return arrayList;

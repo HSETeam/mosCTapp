@@ -28,6 +28,8 @@ public class MainActivity extends ActionBarActivity {
     GoogleAPIRequest request;
     handler Handler;
     DelayAutoCompleteTextView delayAutoCompleteTextView;
+       Place from;
+      Place to;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,8 @@ public class MainActivity extends ActionBarActivity {
 
         Parse.initialize(this, "25hdoejCjH0imQAFBGav3Wr4nMgBWYexr44RTCg7", "flhxfIbJBONuJRmcC77ZrWAEXqmpnb6Cf0lmCgAt");
 
-        hernya("Mayakovskaya");
+
+
 
 
 
@@ -65,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    void hernya(String name) {
+    void loadFinalRouteForStationFromParse(String name) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Route");
         query.whereEqualTo("name", name);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -102,8 +105,11 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    void searchButtonClick(View v) throws UnsupportedEncodingException {
 
+    void dataSetChanged() {
+        if (from != null && to != null) {
+            loadFinalRouteForStationFromParse("Mayakovskaya");
+        }
     }
 
     @Override
@@ -150,8 +156,11 @@ public class MainActivity extends ActionBarActivity {
         toTitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String str = (String) adapterView.getItemAtPosition(position);
-                toTitle.setText(str);
+                Place str = (Place) adapterView.getItemAtPosition(position);
+                toTitle.setText(str.name);
+                to = str;
+                to.loadData();
+                dataSetChanged();
             }
         });
 
@@ -162,8 +171,11 @@ public class MainActivity extends ActionBarActivity {
         fromTitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String str = (String) adapterView.getItemAtPosition(position);
-                fromTitle.setText(str);
+                Place str = (Place) adapterView.getItemAtPosition(position);
+                fromTitle.setText(str.name);
+                from = str;
+                from.loadData();
+                dataSetChanged();
             }
         });
     }

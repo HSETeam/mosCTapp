@@ -89,21 +89,24 @@ public class GoogleAPIRequest {
         });
     }
 
-    public List<String> getAutoComplete (String keyWord) {
+    public List<Place> getAutoComplete (String keyWord) {
 
         JsonLoad json = new JsonLoad();
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8"));
         params.add(new BasicNameValuePair("input", keyWord));
         params.add(new BasicNameValuePair("sensor", "true"));
+        params.add(new BasicNameValuePair("radius", "35000"));
+        params.add(new BasicNameValuePair("components", "country:ru"));
         String result = json.makeHttpRequestString("https://maps.googleapis.com/maps/api/place/autocomplete/json", "GET", params );
 
         try {
             JSONObject obj = new JSONObject(new String(result));
             JSONArray predictions = obj.getJSONArray("predictions");
-            ArrayList<String> results = new ArrayList<String>();
+            ArrayList<Place> results = new ArrayList<Place>();
             for (int i = 0; i < predictions.length(); i++) {
-                results.add(predictions.getJSONObject(i).getString("description"));
+                results.add(new Place(predictions.getJSONObject(i).getString("description"),
+                        predictions.getJSONObject(i).getString("place_id")));
             }
 
             return results;
