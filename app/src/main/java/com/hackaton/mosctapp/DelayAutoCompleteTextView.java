@@ -11,6 +11,9 @@ import android.widget.ProgressBar;
 
 /**
  * Created by tema on 26.04.15.
+ *
+ * Класс для намеренной задержки загрузки подсказок (НЕ ТРОГАЕМ СОВСЕМ!)
+ *
  */
 public class DelayAutoCompleteTextView extends AutoCompleteTextView {
     private static final int MESSAGE_TEXT_CHANGED = 100;

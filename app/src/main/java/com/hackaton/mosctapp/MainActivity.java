@@ -1,21 +1,22 @@
 package com.hackaton.mosctapp;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.hackaton.mosctapp.CommonClasses.*;
 import com.parse.*;
 import com.parse.Parse;
+import com.parse.entity.mime.content.StringBody;
+
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
@@ -27,60 +28,31 @@ public class MainActivity extends ActionBarActivity {
     GoogleAPIRequest request;
     handler Handler;
     DelayAutoCompleteTextView delayAutoCompleteTextView;
-
-    double current_lat;
-    double current_lon;
-
-    double to_lat;
-    double to_lon;
-
-    Station from;
-    Station to;
-
-    ProgressDialog pd;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        request = new GoogleAPIRequest();
-        Handler = new handler();
-        Handler.ct = this;
-
         Parse.enableLocalDatastore(this);
+
         Parse.initialize(this, "25hdoejCjH0imQAFBGav3Wr4nMgBWYexr44RTCg7", "flhxfIbJBONuJRmcC77ZrWAEXqmpnb6Cf0lmCgAt");
 
-        hernya();//TODO
+        hernya();
 
 
-        delayAutoCompleteTextView = (DelayAutoCompleteTextView) findViewById(R.id.inputTo);
-        delayAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+        try {
+            request.getNearestStation(55.741009f, 37.609883f, Handler);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() == 4) {
-                    request.getAutoComplete(s.toString(), Handler);
-                }
-                if (s.length()>4){
-                        ((autoCompleteAdapter)delayAutoCompleteTextView.getAdapter()).getFilter().filter(s.toString());
-                }
-
-            }
-        });
 
         Exit[] exArray = new Exit[2];
-        exArray[0] = new Exit( 37.716765f, 55.751979f, new Route(true, new ArrayList<Step>()));
-        exArray[1] = new Exit(37.717404f, 55.751916f, new Route(true, new ArrayList<Step>()));
+        exArray[0] = new Exit(10, 3, new Route(true, new ArrayList<Step>()));
+        exArray[1] = new Exit(2, 6, new Route(true, new ArrayList<Step>()));
+        Station station = new Station(exArray, "asfas", new Line("ad"));
+        //station.getNearestExit(0, 0, this);
 
         //**Testing Card Adapter (by Tema)
         List<Step> listOfSteps = new ArrayList<Step>();
@@ -89,29 +61,9 @@ public class MainActivity extends ActionBarActivity {
         listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
         listOfSteps.add(new Step("Left", "Выход на улицу Кропоткинская" ));
         setCardsAdapter(listOfSteps);
-
-
+        initializeAutoHint();
     }
 
-    class handler implements receiveDistance {
-
-        Context ct;
-        @Override
-        public void distanceReceived(byte[] responseBody, Exit exit) throws JSONException {
-
-        }
-
-        @Override
-        public void nearestStationReceived(Station responseBody) throws JSONException {
-            pd.cancel();
-        }
-
-        @Override
-        public void autoCompleteReceived(ArrayList<String> responseBody) throws JSONException {
-            delayAutoCompleteTextView.setAdapter(new autoCompleteAdapter(ct, responseBody));
-
-        }
-    }
 
     void hernya() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Route");
@@ -126,15 +78,26 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
+    class handler implements receiveDistance {
+
+        @Override
+        public void distanceReceived(byte[] responseBody, Exit exit) throws JSONException {
+
+        }
+
+        @Override
+        public void nearestStationReceived(Station responseBody) throws JSONException {
+
+        }
+
+        @Override
+        public void autoCompleteReceived(ArrayList<String> responseBody) throws JSONException {
+
+        }
+    }
 
     void searchButtonClick(View v) throws UnsupportedEncodingException {
-        if (current_lat!= 0 & current_lon !=0 & to_lat != 0 & to_lon !=0) {
-            pd.setMessage("Пытаемся найти маршрут...");
-            pd.show();
-            request.getNearestStation(current_lat, current_lon, Handler);
-        } else {
-            //TODO not entered all data
-        }
+   
     }
 
     @Override
@@ -168,5 +131,34 @@ public class MainActivity extends ActionBarActivity {
 
     public void receivedNearestExit(Exit exit) {
 
+    }
+
+    /**
+     * Инициализация подсказок выбора позиции
+     */
+    public void initializeAutoHint() {
+        final DelayAutoCompleteTextView toTitle = (DelayAutoCompleteTextView) findViewById(R.id.inputTo);
+        toTitle.setThreshold(4);
+        toTitle.setAdapter(new autoCompleteAdapter(this));
+        toTitle.setLoadingIndicator((ProgressBar) findViewById(R.id.progress_bar2));
+        toTitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String str = (String) adapterView.getItemAtPosition(position);
+                toTitle.setText(str);
+            }
+        });
+
+        final DelayAutoCompleteTextView fromTitle = (DelayAutoCompleteTextView) findViewById(R.id.inputFrom);
+        fromTitle.setThreshold(4);
+        fromTitle.setAdapter(new autoCompleteAdapter(this));
+        fromTitle.setLoadingIndicator((ProgressBar) findViewById(R.id.progress_bar1));
+        fromTitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String str = (String) adapterView.getItemAtPosition(position);
+                fromTitle.setText(str);
+            }
+        });
     }
 }

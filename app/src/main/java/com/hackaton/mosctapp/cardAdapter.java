@@ -14,6 +14,9 @@ import java.util.List;
 
 /**
  * Created by tema on 26.04.15.
+ *
+ * Adapter Для карточек (Не трогаем)
+ *
  */
 public class cardAdapter extends ArrayAdapter<Step> {
     public cardAdapter (Context context, List<Step> routes) {

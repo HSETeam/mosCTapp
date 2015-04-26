@@ -9,6 +9,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.hackaton.mosctapp.CommonClasses.GoogleAPIRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +19,14 @@ import java.util.List;
  */
 public class autoCompleteAdapter extends BaseAdapter implements Filterable {
     private static final int MAX_RESULTS = 10;
+    GoogleAPIRequest request = new GoogleAPIRequest();
 
     private final Context mContext;
     private List<String> mResults;
 
-    public autoCompleteAdapter(Context context, ArrayList<String> data) {
+    public autoCompleteAdapter(Context context) {
         mContext = context;
-        mResults = data;
+        mResults = new ArrayList<String>();
     }
 
     @Override
@@ -60,7 +63,7 @@ public class autoCompleteAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
-                    List<String> books = mResults;
+                    List<String> books = findLocations(mContext, constraint.toString());
                     // Assign the data to the FilterResults
                     filterResults.values = books;
                     filterResults.count = books.size();
@@ -81,4 +84,19 @@ public class autoCompleteAdapter extends BaseAdapter implements Filterable {
         return filter;
     }
 
+    /**
+     * Returns a search result for the given book title.
+     */
+    private List<String> findLocations(Context context, String bookTitle) {
+        // GoogleBooksService is a wrapper for the Google Books API
+        //GoogleBooksService service = new GoogleBooksService (mContext, MAX_RESULTS);
+        List<String> arrayList = new ArrayList<String>();
+        arrayList = request.getAutoComplete(bookTitle);
+//        arrayList.add("adafs");
+//        arrayList.add("fsdgre");
+//        arrayList.add("reger");
+
+
+        return arrayList;
+    }
 }

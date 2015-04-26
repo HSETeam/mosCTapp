@@ -5,9 +5,12 @@ package com.hackaton.mosctapp.CommonClasses;
 import android.content.Context;
 import android.util.Log;
 
+import com.hackaton.mosctapp.JsonLoad;
 import com.loopj.android.http.*;
 
 import org.apache.http.Header;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +18,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GoogleAPIRequest {
 
@@ -85,42 +89,67 @@ public class GoogleAPIRequest {
         });
     }
 
-    public void getAutoComplete (String keyWord, final receiveDistance listener) {
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-        params.add("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8");
-        params.add("input", keyWord);
-        params.add("sensor", "true");
+    public List<String> getAutoComplete (String keyWord) {
 
-        client.get("https://maps.googleapis.com/maps/api/place/autocomplete/json" , params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                System.out.println("answer received");
-                Log.d("pizda", "answer received\n" + (new String(responseBody)));
+        JsonLoad json = new JsonLoad();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8"));
+        params.add(new BasicNameValuePair("input", keyWord));
+        params.add(new BasicNameValuePair("sensor", "true"));
+        String result = json.makeHttpRequestString("https://maps.googleapis.com/maps/api/place/autocomplete/json", "GET", params );
 
-                try {
-                    JSONObject obj = new JSONObject(new String(responseBody));
-                    JSONArray predictions = obj.getJSONArray("predictions");
-                    ArrayList<String> results = new ArrayList<String>();
-                    for (int i = 0; i < predictions.length(); i++) {
-                        results.add(predictions.getJSONObject(i).getString("description"));
-                    }
-
-                    listener.autoCompleteReceived(results);
-                } catch (JSONException e) {
-                    onFailure(statusCode, headers, responseBody, new IllegalArgumentException());
-                }
-
-
+        try {
+            JSONObject obj = new JSONObject(new String(result));
+            JSONArray predictions = obj.getJSONArray("predictions");
+            ArrayList<String> results = new ArrayList<String>();
+            for (int i = 0; i < predictions.length(); i++) {
+                results.add(predictions.getJSONObject(i).getString("description"));
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.d("pizda","answer did not received\n"+(new String(responseBody)));
-                //TODO parse answer
-            }
-        });
+            return results;
+        } catch (JSONException e) {
+
+        }
+
+        return null;
+
+//        SyncHttpClient client = new SyncHttpClient();
+//        RequestParams params = new RequestParams();
+//        params.add("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8");
+//        params.add("input", keyWord);
+//        params.add("sensor", "true");
+
+//        client.get("https://maps.googleapis.com/maps/api/place/autocomplete/json" , params, new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+//                System.out.println("answer received");
+//                Log.d("pizda", "answer received\n" + (new String(responseBody)));
+//
+//                try {
+//                    JSONObject obj = new JSONObject(new String(responseBody));
+//                    JSONArray predictions = obj.getJSONArray("predictions");
+//                    ArrayList<String> results = new ArrayList<String>();
+//                    for (int i = 0; i < predictions.length(); i++) {
+//                        results.add(predictions.getJSONObject(i).getString("description"));
+//                    }
+//
+//                    listener.autoCompleteReceived(results);
+//                } catch (JSONException e) {
+//                    onFailure(statusCode, headers, responseBody, new IllegalArgumentException());
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//                Log.d("pizda","answer did not received\n"+(new String(responseBody)));
+//                //TODO parse answer
+//            }
+//        });
     }
+
+
 
     public void getNearestExit (float lon2, float lat2, Station s ) {
 
