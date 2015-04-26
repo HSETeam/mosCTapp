@@ -85,22 +85,30 @@
 
 
 
-        ]]>
-            <Button
-                    android:text="Искать"
-                    android:onClick="searchButtonClick"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"/>
+
+            ]]>
         </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/card_listview"
-        android:layout_marginTop="8dp" />
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/card_listview"
+            android:layout_marginTop="8dp" />
+
+        <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressInstructions"
+                android:layout_gravity="center_horizontal|top"
+                android:visibility="gone"/>
+    </FrameLayout>
 
 
 </LinearLayout>

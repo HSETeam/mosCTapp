@@ -3,6 +3,7 @@ package com.hackaton.mosctapp;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.transition.Visibility;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,6 +75,7 @@ public class MainActivity extends ActionBarActivity {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, ParseException e) {
                 if (e == null) {
+                    findViewById(R.id.progressInstructions).setVisibility(View.GONE);
                     List<String> list = scoreList.get(0).getList("steps");
                     List<Step>  result = new ArrayList<Step>();
                     for(String i : list) {
@@ -109,6 +111,7 @@ public class MainActivity extends ActionBarActivity {
     void dataSetChanged() {
         if (from != null && to != null) {
             loadFinalRouteForStationFromParse("Mayakovskaya");
+            findViewById(R.id.progressInstructions).setVisibility(View.VISIBLE);
         }
     }
 
