@@ -83,6 +83,7 @@ public class MainActivity extends ActionBarActivity {
 
                     GoogleAPIRequest g = new GoogleAPIRequest();
                     Exit nearestExit = g.getNearestExit(to.x, to.y, list);
+                    loadFinalRouteForStationFromParse(nearestExit.name);
                     Log.d("score", "Retrieved " + scoreList.size() + " scores");
                 } else {
                     Log.d("score", "Error: " + e.getMessage());
