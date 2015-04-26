@@ -28,6 +28,8 @@ public class MainActivity extends ActionBarActivity {
         Parse.initialize(this, "25hdoejCjH0imQAFBGav3Wr4nMgBWYexr44RTCg7", "flhxfIbJBONuJRmcC77ZrWAEXqmpnb6Cf0lmCgAt");
 
         hernya();
+        GoogleAPIRequest request = new GoogleAPIRequest();
+        request.getNearestStation(3,4);
 
         Exit[] exArray = new Exit[2];
         exArray[0] = new Exit(10, 3, new Route(true, new ArrayList<Step>()));
@@ -42,6 +44,8 @@ public class MainActivity extends ActionBarActivity {
         listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
         listOfSteps.add(new Step("Left", "Выход на улицу Кропоткинская" ));
         setCardsAdapter(listOfSteps);
+
+
     }
 
     void hernya() {

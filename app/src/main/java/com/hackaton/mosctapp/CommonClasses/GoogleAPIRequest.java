@@ -43,4 +43,60 @@ public class GoogleAPIRequest {
         });
 
     }
+
+    public void getNearestStation (float lon, float lat) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.add("key", "AIzaSyC0RFh5XpbU3_6NzsxfUlhh-dOMPKjBS1c");
+        params.add("location", lat+","+lon);
+        params.add("sensor", "true");
+        params.add("keyword","метро");
+        params.add("language", "RUru");
+
+        client.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json" , params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                //TODO parse answer
+                System.out.println("answer received");
+                Log.d("pizda", "answer received\n" + (new String(responseBody)));
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d("pizda","answer did not received\n"+(new String(responseBody)));
+            }
+        });
+    }
+
+    public void getAutoComplete (String keyWord) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.add("key", "AIzaSyC0RFh5XpbU3_6NzsxfUlhh-dOMPKjBS1c");
+        params.add("input", keyWord);
+        params.add("sensor", "true");
+        params.add("language", "RUru");
+
+        client.get("https://maps.googleapis.com/maps/api/place/autocomplete/json" , params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                //TODO parse answer
+                System.out.println("answer received");
+                Log.d("pizda", "answer received\n" + (new String(responseBody)));
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d("pizda","answer did not received\n"+(new String(responseBody)));
+            }
+        });
+    }
+    /*
+    "Id":624,
+"CategoryId":13,
+"DepartmentId":14,
+"Caption":"Входы и выходы вестибюлей станций Московского метрополитена",
+"ContainsGeodata":true
+     */
 }
