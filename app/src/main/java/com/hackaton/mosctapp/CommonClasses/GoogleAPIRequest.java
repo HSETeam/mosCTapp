@@ -154,8 +154,8 @@ public class GoogleAPIRequest {
 
 
 
-    public void getNearestExit (float lon2, float lat2, Station s ) {
-
+    public Exit getNearestExit (float lon2, float lat2, Exit[] s ) {
+       return s[0];
     }
     /*
     "Id":624,
