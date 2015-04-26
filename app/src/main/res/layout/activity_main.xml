@@ -70,6 +70,7 @@
                     android:layout_marginRight="16dp"
                     android:visibility="gone"
                     />
+
             </FrameLayout><![CDATA[
 
 
@@ -84,6 +85,11 @@
 
 
         ]]>
+            <Button
+                    android:text="Искать"
+                    android:onClick="searchButtonClick"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"/>
         </LinearLayout>
 
         </android.support.v7.widget.Toolbar>

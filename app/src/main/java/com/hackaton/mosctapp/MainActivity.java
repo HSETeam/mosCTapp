@@ -1,5 +1,6 @@
 package com.hackaton.mosctapp;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -25,6 +27,18 @@ public class MainActivity extends ActionBarActivity {
     GoogleAPIRequest request;
     handler Handler;
     DelayAutoCompleteTextView delayAutoCompleteTextView;
+
+    double current_lat;
+    double current_lon;
+
+    double to_lat;
+    double to_lon;
+
+    Station from;
+    Station to;
+
+    ProgressDialog pd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,20 +68,15 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 4) {
+                if (s.length() == 4) {
                     request.getAutoComplete(s.toString(), Handler);
-
                 }
+                if (s.length()>4){
+                        ((autoCompleteAdapter)delayAutoCompleteTextView.getAdapter()).getFilter().filter(s.toString());
+                }
+
             }
         });
-
-
-        try {
-            request.getNearestStation(55.741009f, 37.609883f, Handler);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
 
         Exit[] exArray = new Exit[2];
         exArray[0] = new Exit( 37.716765f, 55.751979f, new Route(true, new ArrayList<Step>()));
@@ -94,12 +103,13 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void nearestStationReceived(Station responseBody) throws JSONException {
-
+            pd.cancel();
         }
 
         @Override
         public void autoCompleteReceived(ArrayList<String> responseBody) throws JSONException {
             delayAutoCompleteTextView.setAdapter(new autoCompleteAdapter(ct, responseBody));
+
         }
     }
 
@@ -117,6 +127,15 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    void searchButtonClick(View v) throws UnsupportedEncodingException {
+        if (current_lat!= 0 & current_lon !=0 & to_lat != 0 & to_lon !=0) {
+            pd.setMessage("Пытаемся найти маршрут...");
+            pd.show();
+            request.getNearestStation(current_lat, current_lon, Handler);
+        } else {
+            //TODO not entered all data
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -49,7 +49,7 @@ public class GoogleAPIRequest {
 
     }
 
-    public void getNearestStation (float lon, float lat, final receiveDistance listener) throws UnsupportedEncodingException {
+    public void getNearestStation (double lon, double lat, final receiveDistance listener) throws UnsupportedEncodingException {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.add("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8");
@@ -120,6 +120,10 @@ public class GoogleAPIRequest {
                 //TODO parse answer
             }
         });
+    }
+
+    public void getNearestExit (float lon2, float lat2, Station s ) {
+
     }
     /*
     "Id":624,
