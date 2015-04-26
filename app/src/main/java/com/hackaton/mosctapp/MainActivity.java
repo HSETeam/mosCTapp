@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -132,6 +133,14 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if(id == R.id.action_clear) {
+            to = null;
+            from = null;
+            ((EditText)findViewById(R.id.inputTo)).setText("");
+            ((EditText)findViewById(R.id.inputFrom)).setText("");
+            setCardsAdapter(new ArrayList<Step>());
         }
 
         return super.onOptionsItemSelected(item);
