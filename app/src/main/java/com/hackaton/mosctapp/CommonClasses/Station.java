@@ -17,9 +17,9 @@ import java.util.Comparator;
  * Created by diesersamat on 25/04/15.
  */
 
-interface  receiveDistance {
-    void distanceReceived(byte[] responseBody, Exit exit) throws JSONException;
-}
+
+
+
 
 /**
  * A pair of exit and its distance from a point
@@ -35,13 +35,19 @@ class Pair {
     }
 }
 
-public class Station implements receiveDistance {
+public class Station {
     Exit[] exits;
     String name;
     Line line;
+    double lon;
+    double lat;
     ArrayList<Pair> distances = new ArrayList<Pair>();
     int distancesCount = 0;
     MainActivity context;
+
+    public Station() {
+
+    }
 
     public Station(Exit[] es, String n, Line l) {
         exits = es;
@@ -54,35 +60,6 @@ public class Station implements receiveDistance {
         return name;
     }
 
-    public void getNearestExit(float lon, float lat, MainActivity applicationContext){
-        GoogleAPIRequest request = new GoogleAPIRequest();
-        request.listener = this;
-        context = ((MainActivity)applicationContext);
-        for (Exit exit : exits) {
-            request.getRouteDistance(exit, lon, lat);
-            //TODO google api request
-        }
-
-    }
-
-    public void distanceReceived(byte[] responseBody, Exit exit) throws JSONException {
-        String answer = new String(responseBody);
-        JSONObject root = new JSONObject(answer);
-        JSONArray array = root.getJSONArray("routes");
-
-
-        if (array.length() != 0) {
-            root = array.getJSONObject(0);
-            array = root.getJSONArray("legs");
-            root = array.getJSONObject(0);
-            root = root.getJSONObject("value");
-            distances.add(new Pair(exit,Float.parseFloat(String.valueOf(Float.parseFloat(root.toString())))));
-        }
-        distancesCount++;
-        if (distancesCount == exits.length) {
-            compareDistances();
-        }
-    }
 
     private void compareDistances() {
         class CustomComparator implements Comparator<Pair> {

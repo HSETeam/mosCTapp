@@ -1,7 +1,10 @@
 package com.hackaton.mosctapp;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,31 +14,64 @@ import android.widget.ListView;
 import com.hackaton.mosctapp.CommonClasses.*;
 import com.parse.*;
 import com.parse.Parse;
+import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
-
+    GoogleAPIRequest request;
+    handler Handler;
+    DelayAutoCompleteTextView delayAutoCompleteTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Parse.enableLocalDatastore(this);
+        request = new GoogleAPIRequest();
+        Handler = new handler();
+        Handler.ct = this;
 
+        Parse.enableLocalDatastore(this);
         Parse.initialize(this, "25hdoejCjH0imQAFBGav3Wr4nMgBWYexr44RTCg7", "flhxfIbJBONuJRmcC77ZrWAEXqmpnb6Cf0lmCgAt");
 
-        hernya();
-        GoogleAPIRequest request = new GoogleAPIRequest();
-        request.getNearestStation(3,4);
+        hernya();//TODO
+
+
+        delayAutoCompleteTextView = (DelayAutoCompleteTextView) findViewById(R.id.inputTo);
+        delayAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 4) {
+                    request.getAutoComplete(s.toString(), Handler);
+
+                }
+            }
+        });
+
+
+        try {
+            request.getNearestStation(55.741009f, 37.609883f, Handler);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
 
         Exit[] exArray = new Exit[2];
         exArray[0] = new Exit( 37.716765f, 55.751979f, new Route(true, new ArrayList<Step>()));
         exArray[1] = new Exit(37.717404f, 55.751916f, new Route(true, new ArrayList<Step>()));
-        Station station = new Station(exArray, "asfas", new Line("ad"));
-        station.getNearestExit(37.716775f, 55.751959f, this);
 
         //**Testing Card Adapter (by Tema)
         List<Step> listOfSteps = new ArrayList<Step>();
@@ -46,6 +82,25 @@ public class MainActivity extends ActionBarActivity {
         setCardsAdapter(listOfSteps);
 
 
+    }
+
+    class handler implements receiveDistance {
+
+        Context ct;
+        @Override
+        public void distanceReceived(byte[] responseBody, Exit exit) throws JSONException {
+
+        }
+
+        @Override
+        public void nearestStationReceived(Station responseBody) throws JSONException {
+
+        }
+
+        @Override
+        public void autoCompleteReceived(ArrayList<String> responseBody) throws JSONException {
+            delayAutoCompleteTextView.setAdapter(new autoCompleteAdapter(ct, responseBody));
+        }
     }
 
     void hernya() {
