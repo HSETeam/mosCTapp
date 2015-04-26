@@ -47,7 +47,7 @@ public class GoogleAPIRequest {
     public void getNearestStation (float lon, float lat) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.add("key", "AIzaSyC0RFh5XpbU3_6NzsxfUlhh-dOMPKjBS1c");
+        params.add("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8");
         params.add("location", lat+","+lon);
         params.add("sensor", "true");
         params.add("keyword","метро");
@@ -72,7 +72,7 @@ public class GoogleAPIRequest {
     public void getAutoComplete (String keyWord) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.add("key", "AIzaSyC0RFh5XpbU3_6NzsxfUlhh-dOMPKjBS1c");
+        params.add("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8");
         params.add("input", keyWord);
         params.add("sensor", "true");
         params.add("language", "RUru");

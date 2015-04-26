@@ -32,10 +32,10 @@ public class MainActivity extends ActionBarActivity {
         request.getNearestStation(3,4);
 
         Exit[] exArray = new Exit[2];
-        exArray[0] = new Exit(10, 3, new Route(true, new ArrayList<Step>()));
-        exArray[1] = new Exit(2, 6, new Route(true, new ArrayList<Step>()));
+        exArray[0] = new Exit( 37.716765f, 55.751979f, new Route(true, new ArrayList<Step>()));
+        exArray[1] = new Exit(37.717404f, 55.751916f, new Route(true, new ArrayList<Step>()));
         Station station = new Station(exArray, "asfas", new Line("ad"));
-        station.getNearestExit(0, 0, this);
+        station.getNearestExit(37.716775f, 55.751959f, this);
 
         //**Testing Card Adapter (by Tema)
         List<Step> listOfSteps = new ArrayList<Step>();
