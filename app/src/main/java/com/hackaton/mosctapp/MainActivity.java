@@ -37,15 +37,15 @@ public class MainActivity extends ActionBarActivity {
 
         Parse.initialize(this, "25hdoejCjH0imQAFBGav3Wr4nMgBWYexr44RTCg7", "flhxfIbJBONuJRmcC77ZrWAEXqmpnb6Cf0lmCgAt");
 
-        hernya();
+        hernya("Mayakovskaya");
 
 
 
-        try {
-            request.getNearestStation(55.741009f, 37.609883f, Handler);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            request.getNearestStation(55.741009f, 37.609883f, Handler);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
 
         Exit[] exArray = new Exit[2];
@@ -59,18 +59,24 @@ public class MainActivity extends ActionBarActivity {
         listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
         listOfSteps.add(new Step("Right", "Поверните направо после входа" ));
         listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
-        listOfSteps.add(new Step("Left", "Выход на улицу Кропоткинская" ));
-        setCardsAdapter(listOfSteps);
+        listOfSteps.add(new Step("Left", "Выход на улицу Кропоткинская"));
+        //setCardsAdapter(listOfSteps);
         initializeAutoHint();
     }
 
 
-    void hernya() {
+    void hernya(String name) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Route");
-        query.whereEqualTo("name", "Mayakovskaya");
+        query.whereEqualTo("name", name);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, ParseException e) {
                 if (e == null) {
+                    List<String> list = scoreList.get(0).getList("steps");
+                    List<Step>  result = new ArrayList<Step>();
+                    for(String i : list) {
+                        result.add(new Step(i, "Поверните на " + i));
+                    }
+                    setCardsAdapter(result);
                     Log.d("score", "Retrieved " + scoreList.size() + " scores");
                 } else {
                     Log.d("score", "Error: " + e.getMessage());
@@ -97,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     void searchButtonClick(View v) throws UnsupportedEncodingException {
-   
+
     }
 
     @Override

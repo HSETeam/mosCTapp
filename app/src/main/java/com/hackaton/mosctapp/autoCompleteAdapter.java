@@ -88,14 +88,8 @@ public class autoCompleteAdapter extends BaseAdapter implements Filterable {
      * Returns a search result for the given book title.
      */
     private List<String> findLocations(Context context, String bookTitle) {
-        // GoogleBooksService is a wrapper for the Google Books API
-        //GoogleBooksService service = new GoogleBooksService (mContext, MAX_RESULTS);
         List<String> arrayList = new ArrayList<String>();
         arrayList = request.getAutoComplete(bookTitle);
-//        arrayList.add("adafs");
-//        arrayList.add("fsdgre");
-//        arrayList.add("reger");
-
 
         return arrayList;
     }
