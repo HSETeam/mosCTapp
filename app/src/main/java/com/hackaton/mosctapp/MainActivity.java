@@ -2,12 +2,9 @@ package com.hackaton.mosctapp;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -15,7 +12,6 @@ import com.hackaton.mosctapp.CommonClasses.*;
 import com.parse.*;
 import com.parse.Parse;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
         exArray[0] = new Exit(10, 3, new Route(true, new ArrayList<Step>()));
         exArray[1] = new Exit(2, 6, new Route(true, new ArrayList<Step>()));
         Station station = new Station(exArray, "asfas", new Line("ad"));
-        station.getNearestExit(0, 0, getApplicationContext());
+        station.getNearestExit(0, 0, this);
 
         //**Testing Card Adapter (by Tema)
         List<Step> listOfSteps = new ArrayList<Step>();
@@ -92,31 +88,7 @@ public class MainActivity extends ActionBarActivity {
         lv.setAdapter(adapter);
     }
 
-<<<<<<< Updated upstream
     public void receivedNearestExit(Exit exit) {
 
-=======
-    public void initializeHintListener() {
-        EditText searchTo = (EditText)findViewById(R.id.inputTo);
-        searchTo.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-        });
->>>>>>> Stashed changes
     }
 }
