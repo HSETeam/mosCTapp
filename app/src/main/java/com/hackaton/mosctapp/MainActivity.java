@@ -27,11 +27,14 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
-    GoogleAPIRequest request;
-    handler Handler;
-    DelayAutoCompleteTextView delayAutoCompleteTextView;
-       Place from;
-      Place to;
+    Place from;
+    Place to;
+
+    Station stationFrom;
+    Station stationTo;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,32 +43,6 @@ public class MainActivity extends ActionBarActivity {
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "25hdoejCjH0imQAFBGav3Wr4nMgBWYexr44RTCg7", "flhxfIbJBONuJRmcC77ZrWAEXqmpnb6Cf0lmCgAt");
-
-
-
-
-
-
-//        try {
-//            request.getNearestStation(55.741009f, 37.609883f, Handler);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-
-
-        Exit[] exArray = new Exit[2];
-        exArray[0] = new Exit(10, 3, new Route(true, new ArrayList<Step>()));
-        exArray[1] = new Exit(2, 6, new Route(true, new ArrayList<Step>()));
-        Station station = new Station(exArray, "asfas", new Line("ad"));
-        //station.getNearestExit(0, 0, this);
-
-        //**Testing Card Adapter (by Tema)
-        List<Step> listOfSteps = new ArrayList<Step>();
-        listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
-        listOfSteps.add(new Step("Right", "Поверните направо после входа" ));
-        listOfSteps.add(new Step("Left", "Поверните налево после входа" ));
-        listOfSteps.add(new Step("Left", "Выход на улицу Кропоткинская"));
-        //setCardsAdapter(listOfSteps);
         initializeAutoHint();
     }
 
@@ -78,8 +55,8 @@ public class MainActivity extends ActionBarActivity {
                 if (e == null) {
                     findViewById(R.id.progressInstructions).setVisibility(View.GONE);
                     List<String> list = scoreList.get(0).getList("steps");
-                    List<Step>  result = new ArrayList<Step>();
-                    for(String i : list) {
+                    List<Step> result = new ArrayList<Step>();
+                    for (String i : list) {
                         result.add(new Step(i, "Поверните на " + i));
                     }
                     setCardsAdapter(result);
@@ -90,29 +67,49 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-    class handler implements receiveDistance {
+    void  loadExits (String stationName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("rows2");
+        query.whereEqualTo("NameOfStation", stationName);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+                    findViewById(R.id.progressInstructions).setVisibility(View.GONE);
+                    List<Exit> list = new ArrayList<Exit>();
+                    for (ParseObject po : scoreList) {
+                        if (po.getString("Name").contains("ыход")) {
+                            list.add(new Exit(po.getDouble("Lon"), po.getDouble("Lat"), po.getString("Name")));
+                        }
+                    }
 
-        @Override
-        public void distanceReceived(byte[] responseBody, Exit exit) throws JSONException {
-
-        }
-
-        @Override
-        public void nearestStationReceived(Station responseBody) throws JSONException {
-
-        }
-
-        @Override
-        public void autoCompleteReceived(ArrayList<String> responseBody) throws JSONException {
-
-        }
+                    GoogleAPIRequest g = new GoogleAPIRequest();
+                    Exit nearestExit = g.getNearestExit(to.x, to.y, list);
+                    Log.d("score", "Retrieved " + scoreList.size() + " scores");
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 
-
-    void dataSetChanged() {
-        if (from != null && to != null) {
-            loadFinalRouteForStationFromParse("Mayakovskaya");
+    public void dataSetChanged() throws UnsupportedEncodingException {
+        if (from != null && to != null && from.x != 0 && to.x !=0) {
+            loadFinalRouteForStationFromParse("Маяковская");
             findViewById(R.id.progressInstructions).setVisibility(View.VISIBLE);
+            GoogleAPIRequest request = new GoogleAPIRequest();
+            request.getNearestStation(from.x, from.y, new receiveDistance() {
+                @Override
+                public void nearestStationReceived(Station responseBody) throws JSONException {
+                    stationFrom = responseBody;
+                }
+            });
+
+            request.getNearestStation(to.x, to.y, new receiveDistance() {
+                @Override
+                public void nearestStationReceived(Station responseBody) throws JSONException {
+                    stationTo = responseBody;
+                    loadExits(stationTo.getName());
+                }
+            });
         }
     }
 
@@ -166,14 +163,15 @@ public class MainActivity extends ActionBarActivity {
         toTitle.setThreshold(4);
         toTitle.setAdapter(new autoCompleteAdapter(this));
         toTitle.setLoadingIndicator((ProgressBar) findViewById(R.id.progress_bar2));
+        final MainActivity c = this;
         toTitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Place str = (Place) adapterView.getItemAtPosition(position);
                 toTitle.setText(str.name);
                 to = str;
-                to.loadData();
-                dataSetChanged();
+                to.loadData( c);
+//
             }
         });
 
@@ -187,8 +185,8 @@ public class MainActivity extends ActionBarActivity {
                 Place str = (Place) adapterView.getItemAtPosition(position);
                 fromTitle.setText(str.name);
                 from = str;
-                from.loadData();
-                dataSetChanged();
+                from.loadData(c);
+
             }
         });
     }

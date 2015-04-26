@@ -56,7 +56,7 @@ public class Station {
     }
 
 
-    String getName() {
+    public String getName() {
         return name;
     }
 

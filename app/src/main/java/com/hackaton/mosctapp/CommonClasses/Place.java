@@ -1,12 +1,17 @@
 package com.hackaton.mosctapp.CommonClasses;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.AdapterView;
+import com.hackaton.mosctapp.MainActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by tema on 26.04.15.
@@ -23,22 +28,26 @@ public class Place {
 
     }
 
-    public void loadData() {
+    public void loadData(final MainActivity ma) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8");
         params.put("placeid", id);
 
-        client.get("http://maps.googleapis.com/maps/api/directions/json" , params, new AsyncHttpResponseHandler() {
+        client.get("https://maps.googleapis.com/maps/api/place/details/json" , params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 //TODO parse answer
+
                 try {
                     JSONObject obj = new JSONObject(new String(responseBody));
                     obj = obj.getJSONObject("result").getJSONObject("geometry").getJSONObject("location");
                     x = obj.getDouble("lat");
                     y = obj.getDouble("lng");
+                    ma.dataSetChanged();
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
 

@@ -24,7 +24,7 @@ public class GoogleAPIRequest {
 
 
 
-    void getRouteDistance (final Exit exit, float lon2, float lat2, final receiveDistance listener){
+    void getRouteDistance (final Exit exit, float lon2, float lat2){
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("origin", exit.lon+","+exit.lat);
@@ -38,11 +38,8 @@ public class GoogleAPIRequest {
                 //TODO parse answer
                 System.out.println("answer received");
                 Log.d("pizda", "answer received\n" + (new String(responseBody)));
-                try {
-                    listener.distanceReceived(responseBody, exit);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    //TODO listener.distanceReceived(responseBody, exit);
+
             }
 
             @Override
@@ -115,41 +112,6 @@ public class GoogleAPIRequest {
         }
 
         return null;
-
-//        SyncHttpClient client = new SyncHttpClient();
-//        RequestParams params = new RequestParams();
-//        params.add("key", "AIzaSyD3HZiU9pf0R0ggYKrStSChUtUAOGj6dh8");
-//        params.add("input", keyWord);
-//        params.add("sensor", "true");
-
-//        client.get("https://maps.googleapis.com/maps/api/place/autocomplete/json" , params, new AsyncHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                System.out.println("answer received");
-//                Log.d("pizda", "answer received\n" + (new String(responseBody)));
-//
-//                try {
-//                    JSONObject obj = new JSONObject(new String(responseBody));
-//                    JSONArray predictions = obj.getJSONArray("predictions");
-//                    ArrayList<String> results = new ArrayList<String>();
-//                    for (int i = 0; i < predictions.length(); i++) {
-//                        results.add(predictions.getJSONObject(i).getString("description"));
-//                    }
-//
-//                    listener.autoCompleteReceived(results);
-//                } catch (JSONException e) {
-//                    onFailure(statusCode, headers, responseBody, new IllegalArgumentException());
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//                Log.d("pizda","answer did not received\n"+(new String(responseBody)));
-//                //TODO parse answer
-//            }
-//        });
     }
 
 

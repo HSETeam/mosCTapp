@@ -4,15 +4,16 @@ package com.hackaton.mosctapp.CommonClasses;
  * Created by diesersamat on 25/04/15.
  */
 public class Exit {
-    public float lon;
-    public float lat;
+    public double lon;
+    public double lat;
     public Route way;
+    public String name;
 
 
-    public Exit(float lon, float lat, Route way) {
+    public Exit(double lon, double lat, String name) {
         this.lat = lat;
         this.lon = lon;
-        this.way = way;
+        this.name = name;
     }
 
     public Exit() {

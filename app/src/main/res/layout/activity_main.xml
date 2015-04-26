@@ -31,7 +31,8 @@
                     android:textColorHint="#ffd8d8d8"
                     android:textColor="#ffffffff"
                     android:layout_marginTop="8dp"
-                    android:selectAllOnFocus="true"/>
+                    android:selectAllOnFocus="true"
+                        android:singleLine="false"/>
 
                 <ProgressBar
                     style="?android:attr/progressBarStyleSmall"
